@@ -11,11 +11,14 @@ import org.lwhsu.android.gridimagesearch.adapters.ImageResultsAdapter;
 import org.lwhsu.android.gridimagesearch.models.ImageResult;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
 
@@ -45,6 +48,21 @@ public class SearchActivity extends Activity {
     private void setupViews() {
         etQuery = (EditText) findViewById(R.id.etQuery);
         gvResults = (GridView) findViewById(R.id.gvResults);
+        gvResults.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+                // Launch the image display activity
+                // Create an intent
+                final Intent i = new Intent(SearchActivity.this, ImageDisplayActivity.class);
+                // Get the image result to display
+                final ImageResult result = imageResults.get(position);
+                // Pass image result into the intent
+                i.putExtra("url", result.fullUrl);
+                // Launch the new activity
+                startActivity(i);
+            }
+        });
     }
 
     @Override
