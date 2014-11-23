@@ -32,6 +32,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.lwhsu.android.gridimagesearch.activities.SearchActivity" />
         </activity>
+        <activity
+            android:name="org.lwhsu.android.gridimagesearch.activities.SettingActivity"
+            android:label="@string/title_activity_setting" >
+        </activity>
     </application>
 
 </manifest>
