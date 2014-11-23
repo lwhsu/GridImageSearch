@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -17,10 +18,12 @@ public class SettingActivity extends Activity {
         private Spinner spSize;
         private Spinner spColor;
         private Spinner spType;
+        private EditText etSiteFilter;
 
         private String argSize;
         private String argColor;
         private String argType;
+        private String argSiteFilter;
 
         private final String[] optionsSize = {"small", "medium", "large", "xlarge"};
         private final String[] optionsColor = {"black", "blue", "brown", "gray", "green", "orange", "pink", "purple", "red", "teal", "white", "yellow"};
@@ -91,10 +94,13 @@ public class SettingActivity extends Activity {
             }
 
         });
+
+        etSiteFilter = (EditText) findViewById(R.id.etSiteFilter);
     }
 
     public void onSettingSave(final View v) {
-        final String str = argSize + ' ' + argColor + ' ' + argType;
+        argSiteFilter = etSiteFilter.getText().toString();
+        final String str = argSize + ' ' + argColor + ' ' + argType + ' ' + argSiteFilter;
         Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
     }
 
