@@ -1,4 +1,4 @@
-package org.lwhsu.android.gridimagesearch;
+package org.lwhsu.android.gridimagesearch.models;
 
 import java.util.ArrayList;
 

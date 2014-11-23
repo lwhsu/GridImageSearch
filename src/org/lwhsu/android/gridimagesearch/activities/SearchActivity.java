@@ -1,4 +1,4 @@
-package org.lwhsu.android.gridimagesearch;
+package org.lwhsu.android.gridimagesearch.activities;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,9 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.lwhsu.android.gridimagesearch.R;
+import org.lwhsu.android.gridimagesearch.adapters.ImageResultsAdapter;
+import org.lwhsu.android.gridimagesearch.models.ImageResult;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -24,13 +27,19 @@ public class SearchActivity extends Activity {
     private EditText etQuery;
     private GridView gvResults;
     private ArrayList<ImageResult> imageResults;
+    private ImageResultsAdapter aImageResults;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         setupViews();
+        // Creates the data source
         imageResults = new ArrayList<ImageResult>();
+        // Atta hes the data source to an adapter
+        aImageResults = new ImageResultsAdapter(this, imageResults);
+        // Link the adapter to the adapterview (gridview)
+        gvResults.setAdapter(aImageResults);
     }
 
     private void setupViews() {
@@ -61,10 +70,12 @@ public class SearchActivity extends Activity {
                 try {
                     imageResultsJson = response.getJSONObject("responseData").getJSONArray("results");
                     imageResults.clear();
-                    imageResults.addAll(ImageResult.fromJSONArray(imageResultsJson));
+                    // When you make to the adapter, it does modify the underlying data
+                    aImageResults.addAll(ImageResult.fromJSONArray(imageResultsJson));
                 } catch (final JSONException e) {
                     e.printStackTrace();
                 }
+                Log.i("INFO", imageResultsJson.toString());
             }
         });
     }

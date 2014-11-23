@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.lwhsu.android.gridimagesearch.SearchActivity" >
+    tools:context="org.lwhsu.android.gridimagesearch.activities.SearchActivity" >
 
     <EditText
         android:id="@+id/etQuery"
