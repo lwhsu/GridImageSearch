@@ -23,14 +23,14 @@ public class SearchActivity extends Activity {
 
     private EditText etQuery;
     private GridView gvResults;
-    private ArrayList<ImageResult> imageRsults;
+    private ArrayList<ImageResult> imageResults;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         setupViews();
-        imageRsults = new ArrayList<ImageResult>();
+        imageResults = new ArrayList<ImageResult>();
     }
 
     private void setupViews() {
