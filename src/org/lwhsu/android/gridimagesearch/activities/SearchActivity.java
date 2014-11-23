@@ -43,6 +43,40 @@ public class SearchActivity extends Activity {
         aImageResults = new ImageResultsAdapter(this, imageResults);
         // Link the adapter to the adapterview (gridview)
         gvResults.setAdapter(aImageResults);
+
+        gvResults.setOnScrollListener(new EndlessScrollListener(){
+
+            @Override
+            public void onLoadMore(final int page, final int totalItemsCount) {
+                customLoadMoreDataFromApi(page);
+            }
+
+        });
+    }
+
+    protected void customLoadMoreDataFromApi(final int page) {
+        if (page > 7) {
+            return; // maximum results count is 64
+        }
+        final String query = etQuery.getText().toString();
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final String searchUrl = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + query
+                + "&rsz=8" + "&start=" + page * 8;
+        client.get(searchUrl, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(final int statusCode, final Header[] headers, final JSONObject response) {
+                Log.d("DEBUG", response.toString());
+                JSONArray imageResultsJson = null;
+                try {
+                    imageResultsJson = response.getJSONObject("responseData").getJSONArray("results");
+                    // When you make to the adapter, it does modify the underlying data
+                    aImageResults.addAll(ImageResult.fromJSONArray(imageResultsJson));
+                } catch (final JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("INFO", imageResultsJson.toString());
+            }
+        });
     }
 
     private void setupViews() {
