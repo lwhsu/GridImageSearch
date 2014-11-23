@@ -6,6 +6,7 @@ import org.lwhsu.android.gridimagesearch.R;
 import org.lwhsu.android.gridimagesearch.models.ImageResult;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class ImageResultsAdapter extends ArrayAdapter<ImageResult> {
         // Clear out image from last time
         ivImage.setImageResource(0);
         // Populate title and remote download image url
-        tvTitle.setText(imageInfo.title);
+        tvTitle.setText(Html.fromHtml(imageInfo.title));
         // Remotely download the image data in the background (with Picasso)
         Picasso.with(getContext()).load(imageInfo.thumbUrl).into(ivImage);
         // Return the completed view to be displayed
