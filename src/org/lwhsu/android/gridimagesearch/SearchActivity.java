@@ -1,6 +1,10 @@
 package org.lwhsu.android.gridimagesearch;
 
+import java.util.ArrayList;
+
 import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -19,12 +23,14 @@ public class SearchActivity extends Activity {
 
     private EditText etQuery;
     private GridView gvResults;
+    private ArrayList<ImageResult> imageRsults;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         setupViews();
+        imageRsults = new ArrayList<ImageResult>();
     }
 
     private void setupViews() {
@@ -51,6 +57,14 @@ public class SearchActivity extends Activity {
             @Override
             public void onSuccess(final int statusCode, final Header[] headers, final JSONObject response) {
                 Log.d("DEBUG", response.toString());
+                JSONArray imageResultsJson = null;
+                try {
+                    imageResultsJson = response.getJSONObject("responseData").getJSONArray("results");
+                    imageResults.clear();
+                    imageResults.addAll(ImageResult.fromJSONArray(imageResultsJson));
+                } catch (final JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
