@@ -43,15 +43,6 @@ public class SearchActivity extends Activity {
         aImageResults = new ImageResultsAdapter(this, imageResults);
         // Link the adapter to the adapterview (gridview)
         gvResults.setAdapter(aImageResults);
-
-        gvResults.setOnScrollListener(new EndlessScrollListener(){
-
-            @Override
-            public void onLoadMore(final int page, final int totalItemsCount) {
-                customLoadMoreDataFromApi(page);
-            }
-
-        });
     }
 
     protected void customLoadMoreDataFromApi(final int page) {
@@ -83,7 +74,6 @@ public class SearchActivity extends Activity {
         etQuery = (EditText) findViewById(R.id.etQuery);
         gvResults = (GridView) findViewById(R.id.gvResults);
         gvResults.setOnItemClickListener(new OnItemClickListener() {
-
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 // Launch the image display activity
@@ -96,6 +86,13 @@ public class SearchActivity extends Activity {
                 // Launch the new activity
                 startActivity(i);
             }
+        });
+        gvResults.setOnScrollListener(new EndlessScrollListener(){
+            @Override
+            public void onLoadMore(final int page, final int totalItemsCount) {
+                customLoadMoreDataFromApi(page);
+            }
+
         });
     }
 
