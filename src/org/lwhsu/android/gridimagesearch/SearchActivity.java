@@ -1,13 +1,19 @@
 package org.lwhsu.android.gridimagesearch;
 
+import org.apache.http.Header;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class SearchActivity extends Activity {
 
@@ -37,7 +43,16 @@ public class SearchActivity extends Activity {
     // Fired whenever the button is pressed (android:onclick property)
     public void onImageSearch(final View v) {
         final String query = etQuery.getText().toString();
-        Toast.makeText(this, "Search for: " + query, Toast.LENGTH_SHORT).show();
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+        // https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=android&rsz=8
+        final String searchUrl = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + query + "&rsz=8";
+        client.get(searchUrl, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(final int statusCode, final Header[] headers, final JSONObject response) {
+                Log.d("DEBUG", response.toString());
+            }
+        });
     }
 
     @Override
