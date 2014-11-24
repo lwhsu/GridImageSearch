@@ -15,4 +15,9 @@ public class ImageSearchSetting implements Serializable {
         return "ImageSearchSetting [size=" + size + ", color=" + color + ", type=" + type
                 + ", siteFilter=" + siteFilter + "]";
     }
+
+    public String toToastString() {
+        return "Search Setting: size = " + size + ", color = " + color + ", type = " + type
+                + ", site filter = " + siteFilter;
+    }
 }

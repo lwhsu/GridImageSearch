@@ -48,14 +48,32 @@ public class SearchActivity extends Activity {
         gvResults.setAdapter(aImageResults);
     }
 
+    private static String genSearchUrl(final String query, final ImageSearchSetting setting, final int page) {
+        String url = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + query + "&rsz=8" + "&start=" + page * 8;
+        if (setting != null) {
+            if (setting.size != null) {
+                url += "&imgsz=" + setting.size;
+            }
+            if (setting.color != null) {
+                url += "&imgcolor=" + setting.color;
+            }
+            if (setting.type != null) {
+                url += "&imgtype=" + setting.type;
+            }
+            if (setting.siteFilter != null) {
+                url += "&as_sitesearch=" + setting.siteFilter;
+            }
+        }
+        return url;
+    }
+
     protected void customLoadMoreDataFromApi(final int page) {
         if (page > 7) {
             return; // maximum results count is 64
         }
         final String query = etQuery.getText().toString();
         final AsyncHttpClient client = new AsyncHttpClient();
-        final String searchUrl = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + query
-                + "&rsz=8" + "&start=" + page * 8;
+        final String searchUrl = genSearchUrl(query, searchSetting, page);
         client.get(searchUrl, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(final int statusCode, final Header[] headers, final JSONObject response) {
@@ -113,7 +131,7 @@ public class SearchActivity extends Activity {
 
         final AsyncHttpClient client = new AsyncHttpClient();
         // https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=android&rsz=8
-        final String searchUrl = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + query + "&rsz=8";
+        final String searchUrl = genSearchUrl(query, searchSetting, 0);
         client.get(searchUrl, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(final int statusCode, final Header[] headers, final JSONObject response) {
@@ -152,8 +170,7 @@ public class SearchActivity extends Activity {
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             searchSetting = (ImageSearchSetting) data.getSerializableExtra("searchSetting");
-            // Toast the name to display temporarily on screen
-            Toast.makeText(this, searchSetting.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, searchSetting.toToastString(), Toast.LENGTH_SHORT).show();
         }
     }
 }
