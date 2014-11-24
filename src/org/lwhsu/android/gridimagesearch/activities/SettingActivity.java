@@ -23,9 +23,9 @@ public class SettingActivity extends Activity {
 
         private final ImageSearchSetting searchSetting = new ImageSearchSetting();
 
-        private final String[] optionsSize = {"small", "medium", "large", "xlarge"};
-        private final String[] optionsColor = {"black", "blue", "brown", "gray", "green", "orange", "pink", "purple", "red", "teal", "white", "yellow"};
-        private final String[] optionsType = {"face", "photo", "clipart", "lineart"};
+        private final String[] optionsSize = {"", "small", "medium", "large", "xlarge"};
+        private final String[] optionsColor = {"", "black", "blue", "brown", "gray", "green", "orange", "pink", "purple", "red", "teal", "white", "yellow"};
+        private final String[] optionsType = {"", "face", "photo", "clipart", "lineart"};
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

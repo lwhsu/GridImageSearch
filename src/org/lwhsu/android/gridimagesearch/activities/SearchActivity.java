@@ -51,16 +51,16 @@ public class SearchActivity extends Activity {
     private static String genSearchUrl(final String query, final ImageSearchSetting setting, final int page) {
         String url = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + query + "&rsz=8" + "&start=" + page * 8;
         if (setting != null) {
-            if (setting.size != null) {
+            if (setting.size != null || setting.size != "") {
                 url += "&imgsz=" + setting.size;
             }
-            if (setting.color != null) {
+            if (setting.color != null || setting.color != "") {
                 url += "&imgcolor=" + setting.color;
             }
-            if (setting.type != null) {
+            if (setting.type != null || setting.type != "") {
                 url += "&imgtype=" + setting.type;
             }
-            if (setting.siteFilter != null) {
+            if (setting.siteFilter != null || setting.siteFilter != "") {
                 url += "&as_sitesearch=" + setting.siteFilter;
             }
         }
