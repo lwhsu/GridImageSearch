@@ -1,8 +1,10 @@
 package org.lwhsu.android.gridimagesearch.activities;
 
 import org.lwhsu.android.gridimagesearch.R;
+import org.lwhsu.android.gridimagesearch.models.ImageSearchSetting;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +14,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 public class SettingActivity extends Activity {
         private Spinner spSize;
@@ -20,10 +21,7 @@ public class SettingActivity extends Activity {
         private Spinner spType;
         private EditText etSiteFilter;
 
-        private String argSize;
-        private String argColor;
-        private String argType;
-        private String argSiteFilter;
+        private final ImageSearchSetting searchSetting = new ImageSearchSetting();
 
         private final String[] optionsSize = {"small", "medium", "large", "xlarge"};
         private final String[] optionsColor = {"black", "blue", "brown", "gray", "green", "orange", "pink", "purple", "red", "teal", "white", "yellow"};
@@ -47,7 +45,7 @@ public class SettingActivity extends Activity {
 
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                argSize = optionsSize[position];
+                searchSetting.size = optionsSize[position];
             }
 
             @Override
@@ -66,7 +64,7 @@ public class SettingActivity extends Activity {
 
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                argColor = optionsColor[position];
+                searchSetting.color = optionsColor[position];
             }
 
             @Override
@@ -85,7 +83,7 @@ public class SettingActivity extends Activity {
 
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                argType = optionsType[position];
+                searchSetting.type = optionsType[position];
             }
 
             @Override
@@ -99,9 +97,11 @@ public class SettingActivity extends Activity {
     }
 
     public void onSettingSave(final View v) {
-        argSiteFilter = etSiteFilter.getText().toString();
-        final String str = argSize + ' ' + argColor + ' ' + argType + ' ' + argSiteFilter;
-        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
+        searchSetting.siteFilter = etSiteFilter.getText().toString();
+        final Intent i = new Intent();
+        i.putExtra("searchSetting", searchSetting);
+        setResult(RESULT_OK, i);
+        this.finish();
     }
 
     @Override

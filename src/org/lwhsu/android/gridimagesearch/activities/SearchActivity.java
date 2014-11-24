@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.lwhsu.android.gridimagesearch.R;
 import org.lwhsu.android.gridimagesearch.adapters.ImageResultsAdapter;
 import org.lwhsu.android.gridimagesearch.models.ImageResult;
+import org.lwhsu.android.gridimagesearch.models.ImageSearchSetting;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -31,6 +33,7 @@ public class SearchActivity extends Activity {
     private GridView gvResults;
     private ArrayList<ImageResult> imageResults;
     private ImageResultsAdapter aImageResults;
+    private ImageSearchSetting searchSetting;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -129,6 +132,8 @@ public class SearchActivity extends Activity {
         });
     }
 
+    private final int REQUEST_CODE = 20;
+
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -137,9 +142,18 @@ public class SearchActivity extends Activity {
         final int id = item.getItemId();
         if (id == R.id.action_settings) {
             final Intent i = new Intent(this, SettingActivity.class);
-            startActivity(i);
+            startActivityForResult(i, REQUEST_CODE);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            searchSetting = (ImageSearchSetting) data.getSerializableExtra("searchSetting");
+            // Toast the name to display temporarily on screen
+            Toast.makeText(this, searchSetting.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 }
